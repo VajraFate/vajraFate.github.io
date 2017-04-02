@@ -11,8 +11,14 @@
 <body>
 
 
-    <audio autoplay loop preload="auto">
-        <source src="img/bgMusic.mp3" id="bgMusic">
+    <audio autoplay loop preload="auto" id="bgMusic">
+        <source src="img/bgMusic.mp3" >
+    </audio>
+    <audio preload="auto"  id="dieMusic">
+        <source src="img/die.mp3">
+    </audio>
+    <audio preload="auto" id="jumpMusic">
+        <source src="img/jump.mp3">
     </audio>
 
 </body>
@@ -45,6 +51,9 @@
 
 <script>
     window.onload = function () {
+        var jumpMusic = document.querySelector('#jumpMusic');
+        var bgMusic = document.querySelector('#bgMusic');
+        var dieMusic = document.querySelector('#dieMusic');
         var birdGame = new CreatFlyBird({
             container: "body",
             imgSrc: {
@@ -59,7 +68,21 @@
             Birddirection: 2
 
         });
-
+        jumpMusic: bgMusic;
+        dieMusic: dieMusic;
+        bgMusic: bgMusic;
         birdGame.run();
+    }
+
+    var body = document.querySelector('body');
+    body.onmousedown = function () {
+        jumpMusic.currentTime = 0.2;
+        jumpMusic.play();
+        console.log(1);
+        // console.log(1);
+        // setTimeout(function(){
+        //     jumpMusic.pause();
+        //     console.log('stop');
+        // },1000)
     }
 </script>

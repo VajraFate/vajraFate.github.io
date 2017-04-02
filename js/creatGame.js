@@ -1,5 +1,10 @@
 function CreatFlyBird(options) {
     
+
+    this.bgMusic=bgMusic;
+    this.dieMusic=dieMusic;
+    this.jumpMusic=jumpMusic;
+
     this.container = options.container;
     this.imgSrc = options.imgSrc;
     //检查是否狗带
@@ -168,11 +173,13 @@ CreatFlyBird.prototype = {
     bind: function () {
         var ctx = this.ctx;
         var roles = this.roles;
+        var jumpMusic=this.jumpMusic;
         // var isDie = this.isDie;
         // var isOn = this.isOn;
 
         ctx.canvas.addEventListener('click', function () {
             roles.birdArr[0].flappyUp();
+            // jumpMusic.play();
             // console.log(111);
         })
         window.onkeydown = function (e) {
@@ -222,6 +229,11 @@ CreatFlyBird.prototype = {
             if (!isDie) {
                 self.loop();
             }
+            else{
+                bgMusic.pause();
+                dieMusic.play();
+            }
+
         });
     }
 
