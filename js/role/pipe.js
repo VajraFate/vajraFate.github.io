@@ -31,8 +31,8 @@ var Pipe = (function () {
             this.ctx.drawImage(this.imgUp, this.x, this.yBottom);
             this.ctx.rect(this.x,this.y, this.w, this.h);
             this.ctx.rect(this.x,this.yBottom, this.w, this.h);
-            this.ctx.lineWidth=10;
-            this.ctx.stroke();
+            // this.ctx.lineWidth=10;
+            // this.ctx.stroke();
             this.updata();
             
         },
