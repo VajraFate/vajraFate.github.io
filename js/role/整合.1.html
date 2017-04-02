@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script src='js/extend.js'></script>
+<script src='js/e.js'></script>
+<script src='js/imgLoad.js'></script>
+<script src='js/getCtx.js'></script>
+<script src='js/earth.js'></script>
+<script src='js/sky.js'></script>
+<script src='js/time.js'></script>
+<script src='js/bird.js'></script>
+<script src='js/pipe.js'></script>
+<script src='js/random.js'></script>
+
+
+
+
+
+
+
+
+<script>
+    // 目的为了能实现先读取 图片 ,再 执行 下面的所有代码
+    imgLoad({
+        earth: 'img/land.png',
+        sky: 'img/sky.png',
+        bird: 'img/birds.png',
+        pipeDown: 'img/pipeDown.png',
+        pipeUp: 'img/pipeUp.png',
+
+    }, function (objImg) {
+        flappyBird(objImg);
+    })
+
+
+    // 求需要图片的数量,给下面 主渲染画面的函数 
+    function getNum(ctxW, landW) {
+        return Math.ceil(ctxW / landW) + 1
+    }
+
+    // 检测是否狗带了
+
+
+
+    function flappyBird(objImg) {
+        var ctx = getCtx('body', objImg.sky.width, objImg.sky.height);
+        var ctxW = ctx.canvas.width;
+        var ctxH = ctx.canvas.height;
+
+        // 获取land数量
+        var landLength = getNum(ctxW, objImg.earth.width);
+
+        // 获取sky数量
+
+        var skyLength = getNum(ctxW, objImg.sky.width);
+
+        // 获取pipe数量
+        var pipeLength = getNum(ctxW, objImg.pipeDown.width + 150)
+
+        // 检查是否死亡
+        var isDie = false;
+
+        // 检测是否按了作弊按钮
+
+        var isOn = false;
+        // 所有对象的整合
+        var roles = {
+
+            skyArr: [],
+
+            pipeArr: [],
+            landArr: [],
+            timeArr: [],
+            birdArr: [],
+        }
+
+        // 创建 地板实例
+        for (var i = 0; i < landLength; i++) {
+            roles.landArr.push(new Earth({
+                ctx: ctx,
+                img: objImg.earth,
+                y: objImg.sky.height - objImg.earth.height,
+                x: objImg.earth.width * i
+            }))
+        }
+
+        // 创建 背景实例
+        for (var i = 0; i < landLength; i++) {
+            roles.skyArr.push(new Sky({
+                ctx: ctx,
+                img: objImg.sky,
+                x: objImg.sky.width * i
+            }))
+        }
+
+        // 创建 管道实例
+        for (var i = 0; i < pipeLength; i++) {
+            roles.pipeArr.push(new Pipe({
+                ctx: ctx,
+                imgUp: objImg.pipeUp,
+                imgDown: objImg.pipeDown,
+                LRSpace: 250,
+                TBSpace: 125,
+                x: 250 + (objImg.pipeUp.width + 250) * i,
+            }))
+        }
+
+        // 创建 时间 实例
+        roles.timeArr.push(new Timer({
+            ctx: ctx,
+        }))
+
+        // 创建 小鸟实例
+        roles.birdArr.push(new Bird({
+            ctx: ctx,
+            img: objImg.bird,
+            widthFrame: 3,
+            heightFrame: 1
+        }))
+
+        // 检测是否狗带  
+        function godie() {
+            var bird = roles.birdArr[0];
+            var bX = bird.x + bird.w / 2;
+            var bY = bird.y + bird.h / 2;
+            if (bY <= 0 || bY >= roles.landArr[0].y - 10) {
+                // clearInterval(loop);
+                isDie = true;
+            } else if (ctx.isPointInPath(bX, bY)) {
+                // clearInterval(loop);
+                console.log('in');
+                isDie = true;
+            } else {
+                isDie = false;
+
+            }
+
+        }
+
+
+        //  动态 刷新
+        (function loop() {
+
+            requestAnimationFrame(function () {
+                ctx.clearRect(0, 0, ctxW, ctxH);
+                ctx.beginPath();
+                // 检测是否狗带   
+
+                for (var key in roles) {
+                    roles[key].forEach(function (key, i) {
+                        key.draw();
+                    })
+                }
+
+                //判断是否按下,按下不判断 刷新死亡判断
+                if (!isOn) {
+                    godie();
+                }
+
+                // 判断是否死了,死了不刷新
+                if (!isDie) {
+                    loop();
+                }
+
+
+
+
+
+                ctx.canvas.addEventListener('click', function () {
+                    roles.birdArr[0].flappyUp();
+                    // console.log(111);
+                })
+                window.onkeydown = function (e) {
+                    if (e.keyCode == 86) {
+                        // console.log('vvv');
+                        isDie = false;
+                        isOn = true;
+                    }
+                    window.onkeyup = function () {
+                        isOn = false;
+                        // isDie = true;
+                    }
+                }
+            })
+        })();
+    }
+</script>

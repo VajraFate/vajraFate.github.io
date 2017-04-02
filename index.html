@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <audio autoplay loop preload="auto">
+        <source src="img/bgMusic.mp3" id="bgMusic">
+    </audio>
+
+</body>
+
+</html>
+<script src='js/commom/until.js'></script>
+<script src='js/commom/imgLoad.js'></script>
+<script src='js/commom/e.js'></script>
+
+<script src='js/role/factory.js'></script>
+
+
+
+<script src='js/role/earth.js'></script>
+<script src='js/role/sky.js'></script>
+<script src='js/role/time.js'></script>
+<script src='js/role/bird.js'></script>
+<script src='js/role/pipe.js'></script>
+
+<script src='js/creatGame.js'></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+    window.onload = function () {
+        var birdGame = new CreatFlyBird({
+            container: "body",
+            imgSrc: {
+                earth: 'img/land.png',
+                sky: 'img/sky.png',
+                bird: 'img/pikaq.png',
+                pipeDown: 'img/pipeDown.png',
+                pipeUp: 'img/pipeUp.png',
+            },
+            BirdwidthFrame: 4,
+            BirdheightFrame: 4,
+            Birddirection: 2
+
+        });
+
+        birdGame.run();
+    }
+</script>
