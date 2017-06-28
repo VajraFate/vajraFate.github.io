@@ -37,6 +37,7 @@ CreatFlyBird.prototype = {
 
     // 运行 渲染js 渲染游戏                  
     run: function () {
+        // 图片读取器
         imgLoad(this.imgSrc, function (objImg) {
 
             // 获取对应图片

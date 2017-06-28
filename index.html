@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+    
+    </style>
 </head>
 
 <body>
@@ -51,9 +54,13 @@
 
 <script>
     window.onload = function () {
+
+// 创建音乐
         var jumpMusic = document.querySelector('#jumpMusic');
         var bgMusic = document.querySelector('#bgMusic');
         var dieMusic = document.querySelector('#dieMusic');
+
+// 创建游戏
         var birdGame = new CreatFlyBird({
             container: "body",
             imgSrc: {
@@ -68,12 +75,16 @@
             Birddirection: 2
 
         });
+// 暴露3个全局变量
         jumpMusic: bgMusic;
         dieMusic: dieMusic;
         bgMusic: bgMusic;
+
         birdGame.run();
     }
 
+
+// 当body被点击的时候 播放音乐
     var body = document.querySelector('body');
     body.onmousedown = function () {
         jumpMusic.currentTime = 0.2;
